@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Receiver</title>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <h1>Receiver Page</h1>
+
+    <p>Receiver Peer ID: <span id="peer-id"></span></p>
+
+    <h2>Data From Sender</h2>
+    <div>
+        <span id="displayData">...</span>
+    </div>
+
+
+
+    <script>
+        const peer = new Peer();
+
+        //getting receiver's id and displaying
+        peer.on('open', (id) => {
+            document.getElementById('peer-id').innerText = id;
+        });
+
+        //receiving connection
+        peer.on('connection', (conn) => {
+            conn.on('data', (data) => {
+                document.getElementById('displayData').innerHTML = data;
+                console.log('Received', data);
+            });
+        });
+
+        peer.on('error', (err) => {
+            console.error('PeerJS error:', err);
+        });
+    </script>
+</body>
+</html>
